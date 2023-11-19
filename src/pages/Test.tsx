@@ -1,8 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
-import { IonPage, IonContent, IonButton } from "@ionic/react";
+import { IonPage, IonContent, IonButton, IonIcon } from "@ionic/react";
+import { eyeOutline } from "ionicons/icons";
 import * as vision from "@mediapipe/tasks-vision";
+import SampleTest from "./SampleTest";
+import { useHistory } from "react-router-dom";
 
 const Test: React.FC = () => {
+  const history = useHistory();
+
+  const goToSampleTest = () => {
+    history.push("./SampleTest");
+  };
+
   const webcamRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [faceLandmarker, setFaceLandmarker] = useState<any>(null);
@@ -12,8 +21,8 @@ const Test: React.FC = () => {
   const knownWidthMm = 63; //mm
   const focalLengthPixels = 0.78;
   // Your calculated focal length in pixels
-  let lastVideoTime = -1;
-  let results = undefined;
+  // let lastVideoTime = -1;
+  // let results = undefined;
 
   const video = webcamRef.current;
   const canvas = canvasRef.current;
@@ -146,6 +155,10 @@ const Test: React.FC = () => {
               style={{ position: "absolute", left: 0, top: 0 }}
             ></canvas>
           </div>
+          <IonButton onClick={goToSampleTest}>
+            Continue to faceMesh test
+            <IonIcon slot="end" icon={eyeOutline}></IonIcon>
+          </IonButton>
         </div>
       </IonContent>
     </IonPage>

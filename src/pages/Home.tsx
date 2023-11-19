@@ -9,6 +9,7 @@ import {
 import React from "react";
 import "./Home.css";
 import WelcomePage from "../components/WelcomePage";
+import SampleTest from "./SampleTest";
 
 const Home: React.FC = () => {
   return (
