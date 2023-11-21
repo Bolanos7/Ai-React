@@ -33,16 +33,19 @@ const TestConfig: React.FC = () => {
     setShowDatePicker(false);
   };
 
-  const continueToTest = () => {
+  const continueToPreTest = () => {
     if (!birthYear || !wearGlasses || !eyeToExamine) {
       setShowAlert(true);
     } else {
-      history.push("/Test");
+      history.push("/CameraPage"); // Ensure the route is correct
     }
   };
 
   return (
-    <IonPage id="container">
+    //fix CSS by giving ionPage a class name.  Like the commented out line below
+    // <IonPage id="container">
+
+    <IonPage>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Personal Configuration</IonTitle>
@@ -104,7 +107,7 @@ const TestConfig: React.FC = () => {
         />
       </IonContent>
 
-      <IonButton onClick={continueToTest}>
+      <IonButton onClick={continueToPreTest}>
         Continue
         <IonIcon slot="end" icon={eyeOutline}></IonIcon>
       </IonButton>

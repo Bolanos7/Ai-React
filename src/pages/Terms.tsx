@@ -35,13 +35,20 @@ const Terms: React.FC = () => {
   };
 
   return (
-    <IonPage id="container">
+    //fix CSS by giving ionPage a class name.  Like the commented out line below
+    // <IonPage id="container">
+    <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Terms and Agreements </IonTitle>
+          <IonTitle>Terms and Agreements</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen={true} className="ion-padding">
+      <IonContent fullscreen className="ion-padding">
+        <IonHeader collapse="condense">
+          <IonToolbar>
+            <IonTitle size="large">AI-Vision-App</IonTitle>
+          </IonToolbar>
+        </IonHeader>
         <h1>Please read and accept the terms of agreement to continue</h1>
 
         <p>
@@ -66,7 +73,6 @@ const Terms: React.FC = () => {
           buttons={["OK"]}
         />
       </IonContent>
-
       <IonButton onClick={continueToConfig}>
         Continue
         <IonIcon slot="end" icon={eyeOutline}></IonIcon>

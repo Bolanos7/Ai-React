@@ -9,10 +9,12 @@ import {
 import React from "react";
 import "./Home.css";
 import WelcomePage from "../components/WelcomePage";
-import SampleTest from "./SampleTest";
 
 const Home: React.FC = () => {
   return (
+    //fix CSS by giving ionPage a class name.  Like the commented out line below
+    // <IonPage id="container">
+
     <IonPage>
       <IonHeader>
         <IonToolbar>

@@ -24,8 +24,10 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 import TestConfig from "./pages/TestConfig";
 import Test from "./pages/Test";
-import Sample from "./pages/SampleTest";
-import SampleTest from "./pages/SampleTest";
+import Sample from "./components/PreTest";
+import SampleTest from "./components/PreTest";
+import PreTest from "./components/PreTest";
+import CameraPage from "./pages/CameraPage";
 
 setupIonicReact();
 
@@ -42,7 +44,7 @@ const App: React.FC = () => (
         <Route path="/Terms" component={Terms} exact />
         <Route path="/TestConfig" component={TestConfig} exact />
         <Route path="/Test" component={Test} exact />
-        <Route path="/SampleTest" component={SampleTest} exact />
+        <Route path="/CameraPage" component={CameraPage} exact />
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>

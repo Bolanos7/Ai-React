@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { IonPage, IonContent, IonButton, IonIcon } from "@ionic/react";
 import { eyeOutline } from "ionicons/icons";
 import * as vision from "@mediapipe/tasks-vision";
-import SampleTest from "./SampleTest";
+import SampleTest from "../components/PreTest";
 import { useHistory } from "react-router-dom";
 
 const Test: React.FC = () => {
@@ -129,6 +129,9 @@ const Test: React.FC = () => {
   };
 
   return (
+    //fix CSS by giving ionPage a class name.  Like the commented out line below
+    // <IonPage id="container">
+
     <IonPage>
       <IonContent>
         <p>
