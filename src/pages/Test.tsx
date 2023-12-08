@@ -4,12 +4,15 @@ import { eyeOutline } from "ionicons/icons";
 import * as vision from "@mediapipe/tasks-vision";
 import SampleTest from "../components/PreTest";
 import { useHistory } from "react-router-dom";
+import Header from "../components/Header/Header";
+import Button from "../components/Button/Button";
+import "./Test.css"
 
 const Test: React.FC = () => {
   const history = useHistory();
 
   const goToSampleTest = () => {
-    history.push("./SampleTest");
+    history.push("/CameraPage");
   };
 
   const webcamRef = useRef<HTMLVideoElement>(null);
@@ -133,18 +136,34 @@ const Test: React.FC = () => {
     // <IonPage id="container">
 
     <IonPage>
-      <IonContent>
-        <p>
-          Hold your face in front of your webcam to get real-time face
-          landmarker detection. <br />
-          Click <b>enable webcam</b> below and grant access to the webcam if
-          prompted. Face should be parallel/level with camera and environment
-          should be well lit.{" "}
-        </p>
+      <Header headerText="Instructions"/>
+      
+      <IonContent fullscreen className="ion-padding">
+        <div className="instructions-container">
+          <p className="instructions-text">
+            Hold your face in front of your webcam to get real-time face
+            landmarker detection. <br />
+            <br />
+            Click <b>Enable Webcam</b> below and grant access to the webcam if
+            prompted. Face should be parallel/level with camera and environment
+            should be well lit.{" "}
+            <br /><br />
+            If you are testing one eye, cover the eye that is not being tested.
+            <br /><br />
+            Wear glasses if you are looking to see if you need a new prescription.
+            <br /><br />
+            You will be prompted with one letter at a time. Say the letter and wait for the results.
+            <br /><br />
+            Ensure you are 14 inches away from the camera for correct testing conditions.
+            <br /><br />
+          </p>
+        </div>
+        <Button buttonText="Continue" onClickAction={goToSampleTest}/>
+       
         <div id="liveView" className="videoView">
-          <IonButton id="webcamButton" onClick={enableCam}>
+          {/* <IonButton id="webcamButton" onClick={enableCam}>
             {webcamRunning ? "DISABLE WEBCAM" : "ENABLE WEBCAM"}
-          </IonButton>
+          </IonButton> */}
           <div style={{ position: "relative" }}>
             <video
               ref={webcamRef}
@@ -158,11 +177,8 @@ const Test: React.FC = () => {
               style={{ position: "absolute", left: 0, top: 0 }}
             ></canvas>
           </div>
-          <IonButton onClick={goToSampleTest}>
-            Continue to faceMesh test
-            <IonIcon slot="end" icon={eyeOutline}></IonIcon>
-          </IonButton>
         </div>
+        
       </IonContent>
     </IonPage>
   );

@@ -22,3 +22,11 @@
 #container a {
   text-decoration: none;
 }
+
+.question {
+  margin-bottom: 0px;
+}
+
+.padding {
+  padding-bottom: 30px;
+}
