@@ -1,0 +1,200 @@
+{
+  "hash": "9dfa50f4",
+  "browserHash": "5ccf3981",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "29dcab1b",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "2c2248cb",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/esm/react-router-dom.js",
+      "file": "react-router-dom.js",
+      "fileHash": "abf4104a",
+      "needsInterop": false
+    },
+    "@ionic/react": {
+      "src": "../../node_modules/@ionic/react/dist/index.js",
+      "file": "@ionic_react.js",
+      "fileHash": "e1d95da4",
+      "needsInterop": false
+    },
+    "@ionic/react-router": {
+      "src": "../../node_modules/@ionic/react-router/dist/index.js",
+      "file": "@ionic_react-router.js",
+      "fileHash": "c1b86a7e",
+      "needsInterop": false
+    },
+    "@mediapipe/tasks-vision": {
+      "src": "../../node_modules/@mediapipe/tasks-vision/vision_bundle.mjs",
+      "file": "@mediapipe_tasks-vision.js",
+      "fileHash": "abf77247",
+      "needsInterop": false
+    },
+    "@reacticons/ionicons": {
+      "src": "../../node_modules/@reacticons/ionicons/lib/IonIcon.js",
+      "file": "@reacticons_ionicons.js",
+      "fileHash": "a3858d1e",
+      "needsInterop": true
+    },
+    "react-icons/pi": {
+      "src": "../../node_modules/react-icons/pi/index.esm.js",
+      "file": "react-icons_pi.js",
+      "fileHash": "2a1a1b73",
+      "needsInterop": false
+    },
+    "react-icons/ci": {
+      "src": "../../node_modules/react-icons/ci/index.esm.js",
+      "file": "react-icons_ci.js",
+      "fileHash": "87e1f677",
+      "needsInterop": false
+    },
+    "react-icons/gi": {
+      "src": "../../node_modules/react-icons/gi/index.esm.js",
+      "file": "react-icons_gi.js",
+      "fileHash": "3bacd4ee",
+      "needsInterop": false
+    },
+    "react-icons/fa": {
+      "src": "../../node_modules/react-icons/fa/index.esm.js",
+      "file": "react-icons_fa.js",
+      "fileHash": "077da86d",
+      "needsInterop": false
+    },
+    "react-icons/fa6": {
+      "src": "../../node_modules/react-icons/fa6/index.esm.js",
+      "file": "react-icons_fa6.js",
+      "fileHash": "abf02698",
+      "needsInterop": false
+    },
+    "react-icons/wi": {
+      "src": "../../node_modules/react-icons/wi/index.esm.js",
+      "file": "react-icons_wi.js",
+      "fileHash": "1e1bafb6",
+      "needsInterop": false
+    },
+    "react-webcam": {
+      "src": "../../node_modules/react-webcam/dist/react-webcam.js",
+      "file": "react-webcam.js",
+      "fileHash": "28f11f6d",
+      "needsInterop": true
+    },
+    "@mediapipe/face_mesh": {
+      "src": "../../node_modules/@mediapipe/face_mesh/face_mesh.js",
+      "file": "@mediapipe_face_mesh.js",
+      "fileHash": "6d5a5b9a",
+      "needsInterop": true
+    },
+    "@mediapipe/camera_utils": {
+      "src": "../../node_modules/@mediapipe/camera_utils/camera_utils.js",
+      "file": "@mediapipe_camera_utils.js",
+      "fileHash": "58b1cb4f",
+      "needsInterop": true
+    },
+    "ionicons/icons": {
+      "src": "../../node_modules/ionicons/icons/index.mjs",
+      "file": "ionicons_icons.js",
+      "fileHash": "167856d0",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "keyboard2-HBGFMEJR": {
+      "file": "keyboard2-HBGFMEJR.js"
+    },
+    "index9-5CO5AGJJ": {
+      "file": "index9-5CO5AGJJ.js"
+    },
+    "status-tap-STIIUBYI": {
+      "file": "status-tap-STIIUBYI.js"
+    },
+    "input-shims-7US5MTZW": {
+      "file": "input-shims-7US5MTZW.js"
+    },
+    "shadow-css-KHXDHZEW": {
+      "file": "shadow-css-KHXDHZEW.js"
+    },
+    "ios.transition-QSXRL7YN": {
+      "file": "ios__transition-QSXRL7YN.js"
+    },
+    "md.transition-XHMWYMIH": {
+      "file": "md__transition-XHMWYMIH.js"
+    },
+    "index3-SBWLYETH": {
+      "file": "index3-SBWLYETH.js"
+    },
+    "hardware-back-button-P6WYNN2G": {
+      "file": "hardware-back-button-P6WYNN2G.js"
+    },
+    "focus-visible-HIRLRTYX": {
+      "file": "focus-visible-HIRLRTYX.js"
+    },
+    "swipe-back-66EAXZLV": {
+      "file": "swipe-back-66EAXZLV.js"
+    },
+    "chunk-2DMMAE3R": {
+      "file": "chunk-2DMMAE3R.js"
+    },
+    "chunk-MA7F6SHZ": {
+      "file": "chunk-MA7F6SHZ.js"
+    },
+    "chunk-OQLCZVZQ": {
+      "file": "chunk-OQLCZVZQ.js"
+    },
+    "chunk-F3FX642Q": {
+      "file": "chunk-F3FX642Q.js"
+    },
+    "chunk-MZPKTN76": {
+      "file": "chunk-MZPKTN76.js"
+    },
+    "chunk-2T6GARYF": {
+      "file": "chunk-2T6GARYF.js"
+    },
+    "chunk-7CNPJX5H": {
+      "file": "chunk-7CNPJX5H.js"
+    },
+    "chunk-XFWO7CGS": {
+      "file": "chunk-XFWO7CGS.js"
+    },
+    "chunk-IWEG3V27": {
+      "file": "chunk-IWEG3V27.js"
+    },
+    "chunk-STSDGBGK": {
+      "file": "chunk-STSDGBGK.js"
+    },
+    "chunk-EYUY2RXX": {
+      "file": "chunk-EYUY2RXX.js"
+    },
+    "chunk-GHDA4234": {
+      "file": "chunk-GHDA4234.js"
+    },
+    "chunk-IQCKCRFU": {
+      "file": "chunk-IQCKCRFU.js"
+    },
+    "chunk-Y6ARIKS6": {
+      "file": "chunk-Y6ARIKS6.js"
+    },
+    "chunk-JUPHANMA": {
+      "file": "chunk-JUPHANMA.js"
+    },
+    "chunk-DZXRV6RW": {
+      "file": "chunk-DZXRV6RW.js"
+    },
+    "chunk-6NBOS2UH": {
+      "file": "chunk-6NBOS2UH.js"
+    },
+    "chunk-ZAUFE7H7": {
+      "file": "chunk-ZAUFE7H7.js"
+    },
+    "chunk-UXIASGQL": {
+      "file": "chunk-UXIASGQL.js"
+    }
+  }
+}
