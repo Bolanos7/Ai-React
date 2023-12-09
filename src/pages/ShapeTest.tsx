@@ -15,6 +15,8 @@ import { FaCat, FaHorse, FaCarSide } from "react-icons/fa";
 import { FaSailboat } from "react-icons/fa6";
 import { WiTrain } from "react-icons/wi";
 import IonIcon from "@reacticons/ionicons";
+//import css
+import "./ShapeTest.css";
 
 interface LocationState {
   testMode?: string;
