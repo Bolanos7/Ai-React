@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import { IonPage, IonContent, IonButton, IonIcon } from "@ionic/react";
-import { eyeOutline } from "ionicons/icons";
+import { IonPage, IonContent } from "@ionic/react";
+
 import * as vision from "@mediapipe/tasks-vision";
-import SampleTest from "../components/PreTest";
+
 import { useHistory } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Button from "../components/Button/Button";
