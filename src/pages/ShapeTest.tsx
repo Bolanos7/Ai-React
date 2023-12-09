@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { IonContent, IonPage, IonButton, IonText } from "@ionic/react";
 import Header from "../components/Header/Header";
-import IonIcon from "@reacticons/ionicons";
+import "./LetterTest.css";
+import Button from "../components/Button/Button";
+import Webcam from "react-webcam";
+import { FaceMesh } from "@mediapipe/face_mesh";
+import * as cam from "@mediapipe/camera_utils";
 import { PiButterflyLight } from "react-icons/pi";
 import { CiApple } from "react-icons/ci";
 import { GiSittingDog } from "react-icons/gi";
@@ -10,14 +14,7 @@ import { PiBirdBold } from "react-icons/pi";
 import { FaCat, FaHorse, FaCarSide } from "react-icons/fa";
 import { FaSailboat } from "react-icons/fa6";
 import { WiTrain } from "react-icons/wi";
-import { useLocation } from "react-router-dom";
-import "./LetterTest.css";
-
-import "./LetterTest.css";
-import Button from "../components/Button/Button";
-import Webcam from "react-webcam";
-import { FaceMesh } from "@mediapipe/face_mesh";
-import * as cam from "@mediapipe/camera_utils";
+import IonIcon from "@reacticons/ionicons";
 
 interface LocationState {
   testMode?: string;
@@ -57,7 +54,6 @@ const ShapeTest: React.FC = () => {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
   const [distanceFromCamera, setDistanceFromCamera] = useState(0);
-  console.log("number of characters: ", numberOfCharacters);
 
   useEffect(() => {
     const chars = numberOfCharacters !== undefined ? numberOfCharacters : 5;
@@ -67,23 +63,18 @@ const ShapeTest: React.FC = () => {
   const onResults = (results) => {
     if (results.multiFaceLandmarks) {
       for (const landmarks of results.multiFaceLandmarks) {
-        // Example calculation using eye landmarks
         const leftEye = landmarks[130];
         const rightEye = landmarks[359];
         const eyeDistance = Math.sqrt(
           Math.pow(rightEye.x - leftEye.x, 2) +
             Math.pow(rightEye.y - leftEye.y, 2)
         );
-
-        // Simple calculation assuming a fixed eye distance
-        // You might need a more complex calculation based on your setup
-        const calculatedDistance = 1 / eyeDistance; // Simplified for example
+        const calculatedDistance = 1 / eyeDistance;
         setDistanceFromCamera(calculatedDistance);
       }
     }
   };
 
-  // Setup for FaceMesh and Camera from PreTest
   useEffect(() => {
     const faceMesh = new FaceMesh({
       locateFile: (file) =>
@@ -116,7 +107,7 @@ const ShapeTest: React.FC = () => {
       const webkitRecognition = new window.webkitSpeechRecognition();
       const speechRecognitionList = new window.webkitSpeechGrammarList();
       const grammar =
-        "#JSGF V1.0; grammar lettersAndNumbers; public <letterOrNumber> = (A | B | C | D | ... | Z | 0 | 1 | 2 | ... | 9);";
+        "#JSGF V1.0; grammar keywords; public <keyword> = house | flower | butterfly | umbrella | apple | dog | bird | cat | horse | train | boat | car;";
       speechRecognitionList.addFromString(grammar, 1);
 
       webkitRecognition.grammars = speechRecognitionList;
@@ -130,8 +121,11 @@ const ShapeTest: React.FC = () => {
           const transcript = event.results[i][0].transcript
             .trim()
             .toUpperCase();
-          console.log("Transcript:", transcript);
           setRecognizedKeywords((prev) => new Set(prev).add(transcript));
+        }
+
+        if (allKeywordsRecognized()) {
+          updateRandomIcons(); // Automatically update icons when all are recognized
         }
       };
 
@@ -141,11 +135,38 @@ const ShapeTest: React.FC = () => {
         "Your browser does not support the Web Speech API. Please use Chrome or Safari."
       );
     }
-  }, []);
+  }, [iconsToShow]); // Depend on iconsToShow
 
-  // Removed the setIconsToShow call from this useEffect
   useEffect(() => {
-    const newFontSize = 10 + distanceFromCamera * 0.5; // Example calculation
+    if (allKeywordsRecognized()) {
+      updateRandomIcons();
+    }
+  }, [recognizedKeywords]);
+
+  const updateRandomIcons = () => {
+    let newCount = buttonPressCount + 1;
+    setButtonPressCount(newCount);
+
+    if (newCount >= 5) {
+      setButtonPressCount(0);
+      history.push("./Results", { testMode, eyeToExamine, numberOfCharacters });
+    } else {
+      setRecognizedKeywords(new Set());
+      setIconsToShow(selectRandomIcons(numberOfCharacters || 5));
+    }
+  };
+
+  const isKeywordRecognized = (keyword) =>
+    recognizedKeywords.has(keyword.toUpperCase());
+
+  const allKeywordsRecognized = () => {
+    return iconsToShow.every((iconObject) =>
+      recognizedKeywords.has(iconObject.keyword.toUpperCase())
+    );
+  };
+
+  useEffect(() => {
+    const newFontSize = 10 + distanceFromCamera * 5;
     setFontSize(newFontSize);
   }, [distanceFromCamera]);
 
@@ -158,7 +179,9 @@ const ShapeTest: React.FC = () => {
     }));
   };
 
-  const isKeywordRecognized = (keyword) => recognizedKeywords.has(keyword);
+  const endTest = () => {
+    history.push("./Results", { testMode, eyeToExamine });
+  };
 
   const toggleListening = () => {
     if (recognition) {
@@ -171,37 +194,11 @@ const ShapeTest: React.FC = () => {
     }
   };
 
-  // const increaseFontSize = () => {
-  //   setFontSize(fontSize + 2);
-  // };
-
-  // const decreaseFontSize = () => {
-  //   setFontSize(fontSize - 2);
-  // };
-
-  const updateRandomIcons = () => {
-    let newCount = buttonPressCount + 1;
-    setButtonPressCount(newCount);
-
-    if (newCount > 5) {
-      setButtonPressCount(0);
-      history.push("./Results", { testMode, eyeToExamine, numberOfCharacters });
-    } else {
-      setRecognizedKeywords(new Set());
-      setIconsToShow(selectRandomIcons(numberOfCharacters));
-    }
-  };
-
-  const endTest = () => {
-    history.push("./Results", { testMode, eyeToExamine });
-  };
-
   return (
     <IonPage>
       <Header headerText="Vision Test" />
       <IonContent className="ion-padding">
         <Webcam ref={webcamRef} className="hidden-webcam" />
-
         <canvas ref={canvasRef} />
         <div className="imageContainer">
           {iconsToShow.map(({ keyword, icon }, index) => (
@@ -210,22 +207,13 @@ const ShapeTest: React.FC = () => {
               className="testImages"
               style={{
                 fontSize: fontSize,
-                color: isKeywordRecognized(keyword.toUpperCase())
-                  ? "green"
-                  : "black",
+                color: isKeywordRecognized(keyword) ? "green" : "black",
               }}
             >
               {icon}
             </IonText>
           ))}
         </div>
-
-        {/* <IonButton expand="full" onClick={increaseFontSize}>
-          Increase Font Size
-        </IonButton>
-        <IonButton expand="full" onClick={decreaseFontSize}>
-          Decrease Font Size
-        </IonButton> */}
       </IonContent>
       <IonText style={{ textAlign: "center" }}>
         Vision Test: {buttonPressCount}/5
@@ -236,7 +224,6 @@ const ShapeTest: React.FC = () => {
       <IonButton expand="full" onClick={updateRandomIcons}>
         Next
       </IonButton>
-
       <IonButton expand="full" onClick={endTest}>
         End Test
       </IonButton>
