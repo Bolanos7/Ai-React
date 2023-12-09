@@ -219,26 +219,27 @@ const ShapeTest: React.FC = () => {
             </IonText>
           ))}
         </div>
-        <IonButton expand="full" onClick={toggleListening}>
-          {isListening ? "Stop Speech Recognition" : "Start Speech Recognition"}
-        </IonButton>
+
         {/* <IonButton expand="full" onClick={increaseFontSize}>
           Increase Font Size
         </IonButton>
         <IonButton expand="full" onClick={decreaseFontSize}>
           Decrease Font Size
         </IonButton> */}
-        <IonButton expand="full" onClick={updateRandomIcons}>
-          Next
-        </IonButton>
-
-        <IonButton expand="full" onClick={endTest}>
-          End Test
-        </IonButton>
-        <IonText style={{ textAlign: "center" }}>
-          Vision Test: {buttonPressCount}/5
-        </IonText>
       </IonContent>
+      <IonText style={{ textAlign: "center" }}>
+        Vision Test: {buttonPressCount}/5
+      </IonText>
+      <IonButton expand="full" onClick={toggleListening}>
+        {isListening ? "Stop Speech Recognition" : "Start Speech Recognition"}
+      </IonButton>
+      <IonButton expand="full" onClick={updateRandomIcons}>
+        Next
+      </IonButton>
+
+      <IonButton expand="full" onClick={endTest}>
+        End Test
+      </IonButton>
     </IonPage>
   );
 };
