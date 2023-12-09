@@ -1,19 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { IonContent, IonPage, IonButton, IonText } from "@ionic/react";
 import Header from "../components/Header/Header";
-import IonIcon from "@reacticons/ionicons";
-import { useLocation } from "react-router-dom";
 import "./LetterTest.css";
 import Button from "../components/Button/Button";
 import Webcam from "react-webcam";
 import { FaceMesh } from "@mediapipe/face_mesh";
 import * as cam from "@mediapipe/camera_utils";
-import { number } from "yargs";
 
 interface LocationState {
   testMode?: string;
-  // wearGlasses?: string;
   eyeToExamine?: string;
   numberOfCharacters?: number;
 }
@@ -40,16 +36,9 @@ const LetterTest: React.FC = () => {
 
   const history = useHistory();
   const [randomString, setRandomString] = useState(
-    generateRandomString(numberOfCharacters)
+    generateRandomString(numberOfCharacters || 5)
   );
-  // console.log("number of characters: ", numberOfCharacters);
-  // console.log("test mode: ", testMode);
-  // console.log("eye to examine: ", eyeToExamine);
 
-  useEffect(() => {
-    const chars = numberOfCharacters !== undefined ? numberOfCharacters : 5;
-    setRandomString(generateRandomString(chars));
-  }, [numberOfCharacters]);
   const [buttonPressCount, setButtonPressCount] = useState(0);
   const [fontSize, setFontSize] = useState(70);
   const [recognition, setRecognition] = useState(null);
@@ -59,26 +48,25 @@ const LetterTest: React.FC = () => {
   const canvasRef = useRef(null);
   const [distanceFromCamera, setDistanceFromCamera] = useState(0);
 
+  const allLettersRecognized = () => {
+    return randomString.every((obj) => obj.recognized);
+  };
+
   const onResults = (results) => {
     if (results.multiFaceLandmarks) {
       for (const landmarks of results.multiFaceLandmarks) {
-        // Example calculation using eye landmarks
         const leftEye = landmarks[130];
         const rightEye = landmarks[359];
         const eyeDistance = Math.sqrt(
           Math.pow(rightEye.x - leftEye.x, 2) +
             Math.pow(rightEye.y - leftEye.y, 2)
         );
-
-        // Simple calculation assuming a fixed eye distance
-        // You might need a more complex calculation based on your setup
         const calculatedDistance = 1 / eyeDistance; // Simplified for example
         setDistanceFromCamera(calculatedDistance);
       }
     }
   };
 
-  // Setup for FaceMesh and Camera from PreTest
   useEffect(() => {
     const faceMesh = new FaceMesh({
       locateFile: (file) =>
@@ -125,13 +113,15 @@ const LetterTest: React.FC = () => {
           const transcript = event.results[i][0].transcript
             .trim()
             .toUpperCase();
-          console.log("Transcript:", transcript); // Log everything picked up by the microphone
 
-          // Check if the recognized transcript matches any character in randomString
           setRandomString((currentString) =>
-            currentString.map((obj) =>
-              obj.letter === transcript ? { ...obj, recognized: true } : obj
-            )
+            currentString.map((obj) => {
+              if (obj.letter === transcript && !obj.recognized) {
+                return { ...obj, recognized: true };
+              } else {
+                return obj;
+              }
+            })
           );
         }
       };
@@ -146,14 +136,6 @@ const LetterTest: React.FC = () => {
     setFontSize(newFontSize);
   }, [distanceFromCamera]);
 
-  const increaseFontSize = () => {
-    setFontSize(fontSize + 2);
-  };
-
-  const decreaseFontSize = () => {
-    setFontSize(fontSize - 2);
-  };
-
   const updateRandomIcons = () => {
     const newCount = buttonPressCount + 1;
     setButtonPressCount(newCount);
@@ -162,12 +144,12 @@ const LetterTest: React.FC = () => {
       setButtonPressCount(0);
       history.push("/Results", { testMode, eyeToExamine });
     } else {
-      setRandomString(generateRandomString(numberOfCharacters));
+      setRandomString(generateRandomString(numberOfCharacters || 5));
     }
   };
 
   const endTest = () => {
-    history.push("./Results", { testMode, eyeToExamine });
+    history.push("/Results", { testMode, eyeToExamine });
   };
 
   const toggleListening = () => {
@@ -181,17 +163,11 @@ const LetterTest: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    console.log("Number of characters:", numberOfCharacters);
-    setRandomString(generateRandomString(numberOfCharacters));
-  }, [numberOfCharacters]);
-
   return (
     <IonPage>
       <Header headerText="Vision Test" />
       <IonContent className="ion-padding" scrollY={false}>
         <Webcam ref={webcamRef} className="hidden-webcam" />
-
         <canvas ref={canvasRef} />
         <IonText className="testText" style={{ fontSize: fontSize }}>
           {randomString.map((obj, index) => (
@@ -203,29 +179,19 @@ const LetterTest: React.FC = () => {
             </span>
           ))}
         </IonText>
-
-        <IonButton expand="full" onClick={toggleListening}>
-          {isListening ? "Stop Speech Recognition" : "Start Speech Recognition"}
-        </IonButton>
-        <IonButton expand="full" onClick={increaseFontSize}>
-          Increase Font Size
-        </IonButton>
-        <IonButton expand="full" onClick={decreaseFontSize}>
-          Decrease Font Size
-        </IonButton>
-
-        <div className="test-button">
-          <Button buttonText="Next" onClickAction={updateRandomIcons} />
-        </div>
-
-        <div className="test-button">
-          <Button buttonText="End Test" onClickAction={endTest} />
-        </div>
-
-        <IonText style={{ textAlign: "center" }}>
-          Vision Test: {buttonPressCount}/5
-        </IonText>
       </IonContent>
+      <IonText style={{ textAlign: "center" }}>
+        Vision Test: {buttonPressCount}/5
+      </IonText>
+      <IonButton expand="full" onClick={toggleListening}>
+        {isListening ? "Stop Speech Recognition" : "Start Speech Recognition"}
+      </IonButton>
+      <div className="test-button">
+        <Button buttonText="Next" onClickAction={updateRandomIcons} />
+      </div>
+      <div className="test-button">
+        <Button buttonText="End Test" onClickAction={endTest} />
+      </div>
     </IonPage>
   );
 };

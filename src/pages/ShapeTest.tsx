@@ -43,8 +43,7 @@ const keywordIconMap = {
 
 const ShapeTest: React.FC = () => {
   const location = useLocation<LocationState>();
-  const { testMode, wearGlasses, eyeToExamine, numberOfCharacters } =
-    location.state || {};
+  const { testMode, eyeToExamine, numberOfCharacters } = location.state || {};
   const history = useHistory();
   const [fontSize, setFontSize] = useState(60);
   const [recognition, setRecognition] = useState(null);
