@@ -45,7 +45,7 @@ const ShapeTest: React.FC = () => {
   const location = useLocation<LocationState>();
   const { testMode, eyeToExamine, numberOfCharacters } = location.state || {};
   const history = useHistory();
-  const [fontSize, setFontSize] = useState(60);
+  const [fontSize, setFontSize] = useState(5);
   const [recognition, setRecognition] = useState(null);
   const [isListening, setIsListening] = useState(false);
   const [recognizedKeywords, setRecognizedKeywords] = useState(
@@ -145,7 +145,7 @@ const ShapeTest: React.FC = () => {
 
   // Removed the setIconsToShow call from this useEffect
   useEffect(() => {
-    const newFontSize = 70 + distanceFromCamera * 5; // Example calculation
+    const newFontSize = 10 + distanceFromCamera * 0.5; // Example calculation
     setFontSize(newFontSize);
   }, [distanceFromCamera]);
 
