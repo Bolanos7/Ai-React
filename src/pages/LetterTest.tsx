@@ -2,11 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { IonContent, IonPage, IonButton, IonText } from "@ionic/react";
 import Header from "../components/Header/Header";
-import "./LetterTest.css";
-import Button from "../components/Button/Button";
 import Webcam from "react-webcam";
 import { FaceMesh } from "@mediapipe/face_mesh";
 import * as cam from "@mediapipe/camera_utils";
+import "./LetterTest.css";
 
 interface LocationState {
   testMode?: string;
@@ -123,6 +122,9 @@ const LetterTest: React.FC = () => {
               }
             })
           );
+          if (allKeywordsRecognized()) {
+            updateRandomIcons(); // Automatically update icons when all are recognized
+          }
         }
       };
 
@@ -132,16 +134,22 @@ const LetterTest: React.FC = () => {
         "Your browser does not support the Web Speech API. Please use Chrome or Safari."
       );
     }
+
     const newFontSize = 70 + distanceFromCamera * 5; // Example calculation
     setFontSize(newFontSize);
   }, [distanceFromCamera]);
 
+  useEffect(() => {
+    if (allLettersRecognized()) {
+      updateRandomIcons();
+    }
+  }, [randomString]);
+
   const updateRandomIcons = () => {
-    const newCount = buttonPressCount + 1;
+    let newCount = buttonPressCount + 1;
     setButtonPressCount(newCount);
 
-    if (newCount > 5) {
-      setButtonPressCount(0);
+    if (newCount >= 5) {
       history.push("/Results", { testMode, eyeToExamine });
     } else {
       setRandomString(generateRandomString(numberOfCharacters || 5));
@@ -186,12 +194,9 @@ const LetterTest: React.FC = () => {
       <IonButton expand="full" onClick={toggleListening}>
         {isListening ? "Stop Speech Recognition" : "Start Speech Recognition"}
       </IonButton>
-      <div className="test-button">
-        <Button buttonText="Next" onClickAction={updateRandomIcons} />
-      </div>
-      <div className="test-button">
-        <Button buttonText="End Test" onClickAction={endTest} />
-      </div>
+      <IonButton expand="full" onClick={endTest}>
+        End Test
+      </IonButton>
     </IonPage>
   );
 };
