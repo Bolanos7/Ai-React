@@ -23,6 +23,7 @@ interface LocationState {
   testMode?: string;
   wearGlasses?: string;
   eyeToExamine?: string;
+  numberOfCharacters?: number;
 }
 
 const keywordIconMap = {
@@ -42,7 +43,8 @@ const keywordIconMap = {
 
 const ShapeTest: React.FC = () => {
   const location = useLocation<LocationState>();
-  const { testMode, wearGlasses, eyeToExamine } = location.state || {};
+  const { testMode, wearGlasses, eyeToExamine, numberOfCharacters } =
+    location.state || {};
   const history = useHistory();
   const [fontSize, setFontSize] = useState(60);
   const [recognition, setRecognition] = useState(null);
@@ -56,6 +58,12 @@ const ShapeTest: React.FC = () => {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
   const [distanceFromCamera, setDistanceFromCamera] = useState(0);
+  console.log("number of characters: ", numberOfCharacters);
+
+  useEffect(() => {
+    const chars = numberOfCharacters !== undefined ? numberOfCharacters : 5;
+    setIconsToShow(selectRandomIcons(chars));
+  }, [numberOfCharacters]);
 
   const onResults = (results) => {
     if (results.multiFaceLandmarks) {
@@ -105,8 +113,6 @@ const ShapeTest: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    setIconsToShow(selectRandomIcons());
-
     if ("webkitSpeechRecognition" in window) {
       const webkitRecognition = new window.webkitSpeechRecognition();
       const speechRecognitionList = new window.webkitSpeechGrammarList();
@@ -144,12 +150,13 @@ const ShapeTest: React.FC = () => {
     setFontSize(newFontSize);
   }, [distanceFromCamera]);
 
-  const selectRandomIcons = () => {
+  const selectRandomIcons = (numChars) => {
     const allKeywords = Object.keys(keywordIconMap);
     const shuffled = allKeywords.sort(() => 0.5 - Math.random());
-    return shuffled
-      .slice(0, 5)
-      .map((keyword) => ({ keyword, icon: keywordIconMap[keyword] }));
+    return shuffled.slice(0, numChars).map((keyword) => ({
+      keyword,
+      icon: keywordIconMap[keyword],
+    }));
   };
 
   const isKeywordRecognized = (keyword) => recognizedKeywords.has(keyword);
@@ -176,15 +183,13 @@ const ShapeTest: React.FC = () => {
   const updateRandomIcons = () => {
     let newCount = buttonPressCount + 1;
     setButtonPressCount(newCount);
+
     if (newCount > 5) {
       setButtonPressCount(0);
-      history.push("./Results", { testMode, eyeToExamine });
+      history.push("./Results", { testMode, eyeToExamine, numberOfCharacters });
     } else {
-      setButtonPressCount(newCount);
       setRecognizedKeywords(new Set());
-
-      // Update the icons
-      setIconsToShow(selectRandomIcons());
+      setIconsToShow(selectRandomIcons(numberOfCharacters));
     }
   };
 

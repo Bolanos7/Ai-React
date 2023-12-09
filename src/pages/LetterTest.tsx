@@ -9,19 +9,21 @@ import Button from "../components/Button/Button";
 import Webcam from "react-webcam";
 import { FaceMesh } from "@mediapipe/face_mesh";
 import * as cam from "@mediapipe/camera_utils";
+import { number } from "yargs";
 
 interface LocationState {
   testMode?: string;
   // wearGlasses?: string;
   eyeToExamine?: string;
+  numberOfCharacters?: number;
 }
 
-const generateRandomString = () => {
+const generateRandomString = (numberOfCharacters: number) => {
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   let randomString = [];
   let usedIndices = new Set();
 
-  while (randomString.length < 5) {
+  while (randomString.length < numberOfCharacters) {
     const randomIndex = Math.floor(Math.random() * alphabet.length);
     if (!usedIndices.has(randomIndex)) {
       usedIndices.add(randomIndex);
@@ -34,9 +36,20 @@ const generateRandomString = () => {
 
 const LetterTest: React.FC = () => {
   const location = useLocation<LocationState>();
-  const { testMode, eyeToExamine } = location.state || {};
+  const { testMode, eyeToExamine, numberOfCharacters } = location.state || {};
+
   const history = useHistory();
-  const [randomString, setRandomString] = useState(generateRandomString());
+  const [randomString, setRandomString] = useState(
+    generateRandomString(numberOfCharacters)
+  );
+  // console.log("number of characters: ", numberOfCharacters);
+  // console.log("test mode: ", testMode);
+  // console.log("eye to examine: ", eyeToExamine);
+
+  useEffect(() => {
+    const chars = numberOfCharacters !== undefined ? numberOfCharacters : 5;
+    setRandomString(generateRandomString(chars));
+  }, [numberOfCharacters]);
   const [buttonPressCount, setButtonPressCount] = useState(0);
   const [fontSize, setFontSize] = useState(70);
   const [recognition, setRecognition] = useState(null);
@@ -147,10 +160,9 @@ const LetterTest: React.FC = () => {
 
     if (newCount > 5) {
       setButtonPressCount(0);
-      history.push("./Results", { testMode, eyeToExamine });
+      history.push("/Results", { testMode, eyeToExamine });
     } else {
-      setButtonPressCount(newCount);
-      setRandomString(generateRandomString());
+      setRandomString(generateRandomString(numberOfCharacters));
     }
   };
 
@@ -168,6 +180,11 @@ const LetterTest: React.FC = () => {
       setIsListening(!isListening);
     }
   };
+
+  useEffect(() => {
+    console.log("Number of characters:", numberOfCharacters);
+    setRandomString(generateRandomString(numberOfCharacters));
+  }, [numberOfCharacters]);
 
   return (
     <IonPage>
