@@ -1,5 +1,5 @@
 import { FaceMesh } from "@mediapipe/face_mesh";
-
+import { Camera, CameraResultType } from "@capacitor/camera";
 import * as cam from "@mediapipe/camera_utils";
 import Webcam from "react-webcam";
 import React, { useRef, useEffect } from "react";
@@ -218,7 +218,6 @@ const PreTest: React.FC = () => {
       <Webcam className="webcam" hidden={true} ref={webcamRef} />
       <canvas className="webcam-canvas" ref={canvasRef}></canvas>
     </div>
-    
   );
 };
 
